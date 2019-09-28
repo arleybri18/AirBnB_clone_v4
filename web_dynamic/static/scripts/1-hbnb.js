@@ -1,8 +1,12 @@
-$(document).ready(
-		let ams_check = [];
-		console.log("Hola");
-		$("INPUT").change(function (){
-			ams_check.push($(this:checked).attr("data-id"));
-			console.log(ams_check);
-		})
-		)
+$(document).ready(function (){
+    let ams_check = {};
+    $("INPUT")
+        .change(function () {
+            var $input = $(this);
+            if ($input.is(":checked")){
+                ams_check[$input.attr("data-id")]=$input.attr("data-name");
+            } else {
+                delete ams_check[$input.attr("data-id")];
+            }
+        });
+})
