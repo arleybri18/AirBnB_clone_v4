@@ -1,6 +1,6 @@
 $(document).ready(function (){
     let ams_check = {};
-    $("INPUT")
+    $(".amenities INPUT")
         .change(function () {
             var $input = $(this);
             if ($input.is(":checked")){
@@ -8,5 +8,10 @@ $(document).ready(function (){
             } else {
                 delete ams_check[$input.attr("data-id")];
             }
-        });
-})
+            let str =[];
+            for (let key in ams_check){
+                str.push(ams_check[key]);
+            }
+            $(".amenities h4").text(str.join());
+        })
+    });
