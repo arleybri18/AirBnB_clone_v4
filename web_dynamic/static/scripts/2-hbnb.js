@@ -18,10 +18,8 @@ $(document).ready(function () {
   $.get(url, function (data, status) {
     if (status === 'success') {
       $('DIV#api_status').addClass('available');
-      console.log('OK');
     } else {
       $('DIV#api_status').removeClass('available');
-      console.log('BAD');
     }
   });
 });
