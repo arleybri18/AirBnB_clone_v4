@@ -33,16 +33,15 @@ $(document).ready(function () {
     return user;
   }
 
-  const dataDict = {}; 
-  $('button').click(function (){
-      amsIds = Object.keys(amsCheck);
-      dataDict["amenities"] = amsIds;
-      /*console.log(dataDict); */
-      $('.places').children().remove('article');
-      places(dataDict);
+  const dataDict = {};
+  $('button').click(function () {
+    const amsIds = Object.keys(amsCheck);
+    dataDict.amenities = amsIds;
+    $('.places').children().remove('article');
+    places(dataDict);
   });
-  
-  function places (dt='{}'){
+
+  function places (dt = '{}') {
     return $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/places_search/',
       type: 'POST',
