@@ -14,7 +14,7 @@ $(document).ready(function () {
     $('.amenities h4').text(str.join());
   });
 
-  const url = 'http://0.0.0.0:5001/api/v1/status/';
+  const url = 'http://localhost:5001/api/v1/status/';
   $.get(url, function (data, status) {
     if (data.status === 'OK') {
       $('DIV#api_status').addClass('available');
@@ -25,7 +25,7 @@ $(document).ready(function () {
 
   function getUser (id) {
     return $.ajax({
-      url: 'http://0.0.0.0:5001/api/v1/users/' + id,
+      url: 'http://localhost:5001/api/v1/users/' + id,
       type: 'GET',
       contentType: 'application/json',
       dataType: "json",
@@ -35,21 +35,27 @@ $(document).ready(function () {
     });
   };
 
+  const dataDict = {}; 
   $('button').click(function (){
-      let data_dict = {};
-      let amens_id = []; 
-      console.log($('.amenities h4').text();
-  }
+      amsIds = Object.keys(amsCheck);
+      dataDict["amenities"] = amsIds;
+      /*console.log(dataDict); */
+      $('.places').children().remove('article');
+      places(dataDict);
+  });
   
-  $.ajax({
-    url: 'http://0.0.0.0:5001/api/v1/places_search/',
+  function places (dt='{}'){
+  return $.ajax({
+    url: 'http://localhost:5001/api/v1/places_search/',
     type: 'POST',
     contentType: 'application/json',
-    data: '{}',
+    data: JSON.stringify(dt),
     success: function (data) {
+      /*console.log(dt);*/
+      /*console.log(data.length);*/
       for (const place of data) {
         const user = getUser(place.user_id);
-        console.log(user);
+        /*console.log(user);*/
         $('.places').append(
           '<article>' +
             '<div class="title">' +
@@ -81,4 +87,6 @@ $(document).ready(function () {
       }
     }
   });
+}
+places(dataDict);
 });
