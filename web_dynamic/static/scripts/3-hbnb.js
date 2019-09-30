@@ -24,14 +24,14 @@ $(document).ready(function () {
   });
 
   function getUser (id) {
-    user = $.ajax({
+    const user = $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/users/' + id,
       type: 'GET',
       contentType: 'application/json',
       dataType: 'json'
     });
-    return user;  
-  };
+    return user;
+  }
 
   $.ajax({
     url: 'http://0.0.0.0:5001/api/v1/places_search/',
