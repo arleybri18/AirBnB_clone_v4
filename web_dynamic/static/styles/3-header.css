@@ -12,3 +12,15 @@ header {
 	width: 100%;
 	border-bottom: 1px solid #CCCCCC;
 }
+
+DIV#api_status {
+  margin: 15px 30px auto auto;
+  height: 40px;
+  width: 40px;  
+  border-radius: 50%;
+  background-color: #CCCCCC;
+}
+
+DIV#api_status.available {
+  background-color: #FF545F;
+}
