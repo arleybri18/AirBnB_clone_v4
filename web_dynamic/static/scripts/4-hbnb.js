@@ -35,12 +35,13 @@ $(document).ready(function () {
     });
   };
 
+
   $('button').click(function (){
       let data_dict = {};
       let amens_id = []; 
-      console.log($('.amenities h4').text();
-  }
-  
+      console.log($('.amenities h4').text());
+  });
+
   $.ajax({
     url: 'http://0.0.0.0:5001/api/v1/places_search/',
     type: 'POST',
