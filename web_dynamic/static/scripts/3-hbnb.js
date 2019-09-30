@@ -24,15 +24,13 @@ $(document).ready(function () {
   });
 
   function getUser (id) {
-    return $.ajax({
+    user = $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/users/' + id,
       type: 'GET',
       contentType: 'application/json',
-      dataType: "json",
-      done: function (data) {
-        return JSON.parse(data);
-      }
+      dataType: 'json'
     });
+    return user;  
   };
 
   $.ajax({
@@ -41,38 +39,37 @@ $(document).ready(function () {
     contentType: 'application/json',
     data: '{}',
     success: function (data) {
-      for (const place of data) {
-        const user = getUser(place.user_id);
-        console.log(user);
+      $.each(data, async function () {
+        const user = await getUser(this.user_id);
         $('.places').append(
           '<article>' +
             '<div class="title">' +
-              '<h2>' + place.name + '</h2>' +
-              '<div class="price_by_night">' + place.price_by_night + '</div>' +
+              '<h2>' + this.name + '</h2>' +
+              '<div class="price_by_night">' + this.price_by_night + '</div>' +
             '</div>' +
             '<div class="information">' +
               '<div class="max_guest">' +
                 '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
-                '<br />' + place.max_guest + ' Guests' +
+                '<br />' + this.max_guest + ' Guests' +
               '</div>' +
               '<div class="number_rooms">' +
                 '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
-                '<br />' + place.number_rooms + ' Bedrooms' +
+                '<br />' + this.number_rooms + ' Bedrooms' +
               '</div>' +
               '<div class="number_bathrooms">' +
                 '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
-                '<br />' + place.number_bathrooms + ' Bathroom' +
+                '<br />' + this.number_bathrooms + ' Bathroom' +
               '</div>' +
             '</div>' +
             '<div class="user">' +
               '<strong>Owner: ' + user.first_name + ' ' + user.last_name + '</strong>' +
             '</div>' +
             '<div class="description">' +
-              place.description +
+              this.description +
             '</div>' +
           '</article>'
         );
-      }
+      });
     }
   });
 });
