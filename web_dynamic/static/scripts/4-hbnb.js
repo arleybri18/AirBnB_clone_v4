@@ -14,7 +14,7 @@ $(document).ready(function () {
     $('.amenities h4').text(str.join());
   });
 
-  const url = 'http://localhost:5001/api/v1/status/';
+  const url = 'http://0.0.0.0:5001/api/v1/status/';
   $.get(url, function (data, status) {
     if (data.status === 'OK') {
       $('DIV#api_status').addClass('available');
@@ -24,16 +24,14 @@ $(document).ready(function () {
   });
 
   function getUser (id) {
-    return $.ajax({
-      url: 'http://localhost:5001/api/v1/users/' + id,
+    const user = $.ajax({
+      url: 'http://0.0.0.0:5001/api/v1/users/' + id,
       type: 'GET',
       contentType: 'application/json',
-      dataType: "json",
-      done: function (data) {
-        return JSON.parse(data);
-      }
+      dataType: 'json'
     });
-  };
+    return user;
+  }
 
   const dataDict = {}; 
   $('button').click(function (){
@@ -45,48 +43,45 @@ $(document).ready(function () {
   });
   
   function places (dt='{}'){
-  return $.ajax({
-    url: 'http://localhost:5001/api/v1/places_search/',
-    type: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(dt),
-    success: function (data) {
-      /*console.log(dt);*/
-      /*console.log(data.length);*/
-      for (const place of data) {
-        const user = getUser(place.user_id);
-        /*console.log(user);*/
-        $('.places').append(
-          '<article>' +
-            '<div class="title">' +
-              '<h2>' + place.name + '</h2>' +
-              '<div class="price_by_night">' + place.price_by_night + '</div>' +
-            '</div>' +
-            '<div class="information">' +
-              '<div class="max_guest">' +
-                '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
-                '<br />' + place.max_guest + ' Guests' +
+    return $.ajax({
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(dt),
+      success: function (data) {
+        $.each(data, async function () {
+          const user = await getUser(this.user_id);
+          $('.places').append(
+            '<article>' +
+              '<div class="title">' +
+                '<h2>' + this.name + '</h2>' +
+                '<div class="price_by_night">' + this.price_by_night + '</div>' +
               '</div>' +
-              '<div class="number_rooms">' +
-                '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
-                '<br />' + place.number_rooms + ' Bedrooms' +
+              '<div class="information">' +
+                '<div class="max_guest">' +
+                  '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
+                  '<br />' + this.max_guest + ' Guests' +
+                '</div>' +
+                '<div class="number_rooms">' +
+                  '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
+                  '<br />' + this.number_rooms + ' Bedrooms' +
+                '</div>' +
+                '<div class="number_bathrooms">' +
+                  '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
+                  '<br />' + this.number_bathrooms + ' Bathroom' +
+                '</div>' +
               '</div>' +
-              '<div class="number_bathrooms">' +
-                '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
-                '<br />' + place.number_bathrooms + ' Bathroom' +
+              '<div class="user">' +
+                '<strong>Owner: ' + user.first_name + ' ' + user.last_name + '</strong>' +
               '</div>' +
-            '</div>' +
-            '<div class="user">' +
-              '<strong>Owner: ' + user.first_name + ' ' + user.last_name + '</strong>' +
-            '</div>' +
-            '<div class="description">' +
-              place.description +
-            '</div>' +
-          '</article>'
-        );
+              '<div class="description">' +
+                this.description +
+              '</div>' +
+            '</article>'
+          );
+        });
       }
-    }
-  });
-}
-places(dataDict);
+    });
+  }
+  places(dataDict);
 });
