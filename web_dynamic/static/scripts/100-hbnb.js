@@ -15,9 +15,10 @@ $(document).ready(function () {
   });
 
   const statesCheck = {};
-  $('DIV.locations .popover UL H2 INPUT').change(function () {
+  $('.state INPUT').change(function () {
     console.log("Hello");
     var $inputStat = $(this);
+    console.log($inputStat)
     if ($inputStat.is(':checked')) {
       statesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
     } else {
