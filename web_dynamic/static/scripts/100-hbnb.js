@@ -14,6 +14,36 @@ $(document).ready(function () {
     $('.amenities h4').text(str.join());
   });
 
+  const statesCheck = {};
+  $('.state INPUT').change(function () {
+    var $inputStat = $(this);
+    if ($inputStat.is(':checked')) {
+      statesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
+    } else {
+      delete statesCheck[$inputStat.attr('data-id')];
+    }
+    const strState = [];
+    for (const key in statesCheck) {
+      strState.push(statesCheck[key]);
+    }
+    $('.locations h4').text(strState.join());
+  });
+
+  const citiesCheck = {};
+  $('.city INPUT').change(function () {
+    var $inputStat = $(this);
+    if ($inputStat.is(':checked')) {
+      citiesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
+    } else {
+      delete citiesCheck[$inputStat.attr('data-id')];
+    }
+    const strCity = [];
+    for (const key in citiesCheck) {
+      strCity.push(citiesCheck[key]);
+    }
+    $('.locations h4').text(strCity.join());
+  });
+
   const url = 'http://0.0.0.0:5001/api/v1/status/';
   $.get(url, function (data, status) {
     if (data.status === 'OK') {
@@ -36,7 +66,11 @@ $(document).ready(function () {
   const dataDict = {};
   $('button').click(function () {
     const amsIds = Object.keys(amsCheck);
+    const stsIds = Object.keys(statesCheck);
+    const cityIds = Object.keys(citiesCheck);
     dataDict.amenities = amsIds;
+    dataDict.states = stsIds;
+    dataDict.cities = cityIds;
     $('.places').children().remove('article');
     places(dataDict);
   });
@@ -48,6 +82,7 @@ $(document).ready(function () {
       contentType: 'application/json',
       data: JSON.stringify(dt),
       success: function (data) {
+        console.log(data.length);
         $.each(data, async function () {
           const user = await getUser(this.user_id);
           $('.places').append(
