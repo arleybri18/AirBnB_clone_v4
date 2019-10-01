@@ -22,7 +22,6 @@ $(document).ready(function () {
     } else {
       delete statesCheck[$inputStat.attr('data-id')];
     }
-    console.log(statesCheck);
     const strState = [];
     for (const key in statesCheck) {
       strState.push(statesCheck[key]);
@@ -32,15 +31,12 @@ $(document).ready(function () {
 
   const citiesCheck = {};
   $('.city INPUT').change(function () {
-    console.log('Hello city');
     var $inputStat = $(this);
-    console.log($inputStat);
     if ($inputStat.is(':checked')) {
       citiesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
     } else {
       delete citiesCheck[$inputStat.attr('data-id')];
     }
-    console.log(citiesCheck);
     const strCity = [];
     for (const key in citiesCheck) {
       strCity.push(citiesCheck[key]);
