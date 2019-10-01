@@ -16,9 +16,7 @@ $(document).ready(function () {
 
   const statesCheck = {};
   $('.state INPUT').change(function () {
-    console.log('Hello');
     var $inputStat = $(this);
-    console.log($inputStat);
     if ($inputStat.is(':checked')) {
       statesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
     } else {
@@ -50,7 +48,7 @@ $(document).ready(function () {
     $('.locations h4').text(strCity.join());
   });
 
-  const url = 'http://localhost:5001/api/v1/status/';
+  const url = 'http://0.0.0.0:5001/api/v1/status/';
   $.get(url, function (data, status) {
     if (data.status === 'OK') {
       $('DIV#api_status').addClass('available');
@@ -61,7 +59,7 @@ $(document).ready(function () {
 
   function getUser (id) {
     const user = $.ajax({
-      url: 'http://localhost:5001/api/v1/users/' + id,
+      url: 'http://0.0.0.0:5001/api/v1/users/' + id,
       type: 'GET',
       contentType: 'application/json',
       dataType: 'json'
@@ -72,18 +70,23 @@ $(document).ready(function () {
   const dataDict = {};
   $('button').click(function () {
     const amsIds = Object.keys(amsCheck);
+    const stsIds = Object.keys(statesCheck);
+    const cityIds = Object.keys(citiesCheck);
     dataDict.amenities = amsIds;
+    dataDict.states = stsIds;
+    dataDict.cities = cityIds;
     $('.places').children().remove('article');
     places(dataDict);
   });
 
   function places (dt = '{}') {
     return $.ajax({
-      url: 'http://localhost:5001/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(dt),
       success: function (data) {
+        console.log(data.length);
         $.each(data, async function () {
           const user = await getUser(this.user_id);
           $('.places').append(
