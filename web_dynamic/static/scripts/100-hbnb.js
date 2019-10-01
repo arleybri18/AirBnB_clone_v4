@@ -16,9 +16,9 @@ $(document).ready(function () {
 
   const statesCheck = {};
   $('.state INPUT').change(function () {
-    console.log("Hello");
+    console.log('Hello');
     var $inputStat = $(this);
-    console.log($inputStat)
+    console.log($inputStat);
     if ($inputStat.is(':checked')) {
       statesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
     } else {
@@ -34,9 +34,9 @@ $(document).ready(function () {
 
   const citiesCheck = {};
   $('.city INPUT').change(function () {
-    console.log("Hello city");
+    console.log('Hello city');
     var $inputStat = $(this);
-    console.log($inputStat)
+    console.log($inputStat);
     if ($inputStat.is(':checked')) {
       citiesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
     } else {
@@ -48,8 +48,8 @@ $(document).ready(function () {
       strCity.push(citiesCheck[key]);
     }
     $('.locations h4').text(strCity.join());
-  });  
-  
+  });
+
   const url = 'http://localhost:5001/api/v1/status/';
   $.get(url, function (data, status) {
     if (data.status === 'OK') {
