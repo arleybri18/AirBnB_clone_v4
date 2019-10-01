@@ -31,6 +31,24 @@ $(document).ready(function () {
     }
     $('.locations h4').text(strState.join());
   });
+
+  const citiesCheck = {};
+  $('.city INPUT').change(function () {
+    console.log("Hello city");
+    var $inputStat = $(this);
+    console.log($inputStat)
+    if ($inputStat.is(':checked')) {
+      citiesCheck[$inputStat.attr('data-id')] = $inputStat.attr('data-name');
+    } else {
+      delete citiesCheck[$inputStat.attr('data-id')];
+    }
+    console.log(citiesCheck);
+    const strCity = [];
+    for (const key in citiesCheck) {
+      strCity.push(citiesCheck[key]);
+    }
+    $('.locations h4').text(strCity.join());
+  });  
   
   const url = 'http://localhost:5001/api/v1/status/';
   $.get(url, function (data, status) {
